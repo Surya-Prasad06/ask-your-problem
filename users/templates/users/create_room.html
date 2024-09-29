@@ -1,0 +1,57 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+<style>
+    form {
+        background-color: antiquewhite;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 12px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Room Name:</label>
+    <input type="text" name="name" id="name" required><br>
+
+    <label for="description">Description:</label>
+    <textarea name="description" id="description"></textarea><br>
+
+    <button type="submit">Create Room</button>
+</form>
+
+{% endblock %}

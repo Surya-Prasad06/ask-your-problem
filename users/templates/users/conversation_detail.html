@@ -1,0 +1,100 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+<div class="conversation-container" style="overflow: hidden;">
+    <h2>Conversation with {{ other_user_name }}</h2>
+
+    <div class="messages">
+        <ul>
+            {% for message in messages %}
+            <li class="{% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                <strong>{{ message.sender.username }}:</strong> {{ message.content }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <form method="post" action="" class="message-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<style>
+    .conversation-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .conversation-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+    }
+
+    .messages ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        max-height: 400px;
+        overflow-y: auto;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .messages ul li {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    .messages ul li.sent {
+        background-color: #d1f7d6;
+        text-align: right;
+    }
+
+    .messages ul li.received {
+        background-color: #f0f0f0;
+        text-align: left;
+    }
+
+    .message-form {
+        display: flex;
+        margin-top: 20px;
+        gap: 10px;
+    }
+
+    .message-form textarea {
+        flex: 1;
+        resize: none;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+    }
+
+    .message-form button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .message-form button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+{% endblock %}

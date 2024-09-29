@@ -1,0 +1,168 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+
+<div class="chat-container">
+    <h1 class="chat-room-title">{{ room.name }}</h1>
+    <p class="chat-room-description">{{ room.description }}</p>
+
+    <ul class="message-list">
+        {% for message in messages %}
+            <li class="message-item {% if message.user.username == request.user.username %}self{% endif %}">
+                <div class="message-bubble">
+                    <strong class="message-user">{{ message.user.username }}:</strong>
+                    <p class="message-content">{{ message.content }}</p>
+                    {% if message.image %}
+                        <img class="message-image" src="{{ message.image.url }}" alt="Image">
+                    {% endif %}
+                    {% if message.voice_message %}
+                        <audio class="message-audio" controls>
+                            <source src="{{ message.voice_message.url }}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <form method="post" enctype="multipart/form-data" class="message-form">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Type a message..."></textarea>
+
+        <label for="image-upload" class="custom-file-upload">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/026/912/085/small_2x/beautiful-camera-silhouette-generative-ai-png.png" alt="Choose Image">
+        </label>
+        <input type="file" id="image-upload" name="image" style="display: none;">
+
+        <label for="voice-upload" class="custom-file-upload">
+            <img src="https://icon2.cleanpng.com/20180627/boi/aay2s2cqu.webp" alt="Choose Voice Message">
+        </label>
+        <input type="file" id="voice-upload" name="voice_message" style="display: none;">
+
+        <button type="submit" class="send-button">Send</button>
+    </form>
+</div>
+
+<style>
+/* Styling for the chat container */
+.chat-container {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 600px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Title and description styling */
+.chat-room-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.chat-room-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Styling for the message list */
+.message-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Styling for message items */
+.message-item {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Styling for self messages */
+.message-item.self .message-bubble {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    text-align: right;
+}
+
+.message-item .message-bubble {
+    background-color: #e5e5e5;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 70%;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.message-user {
+    font-weight: bold;
+}
+
+.message-content {
+    margin: 5px 0;
+}
+
+.message-image {
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+    margin-top: 5px;
+}
+
+.message-audio {
+    margin-top: 5px;
+    width: 100%;
+}
+
+/* Styling for the form */
+.message-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.message-form textarea {
+    width: 90%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    resize: none;
+}
+
+.custom-file-upload {
+    display: flex;
+    display: inline-block;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.custom-file-upload img {
+    width: 30px;
+    height: 30px;
+}
+
+.send-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #2ddb59;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: flex-end;
+}
+
+.send-button:hover {
+    background-color: #00ff26;
+}
+</style>
+
+{% endblock %}

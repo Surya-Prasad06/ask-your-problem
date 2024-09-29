@@ -1,0 +1,152 @@
+{% extends 'users/base.html' %}
+{% load static %}
+{% block content %}
+<style>
+   
+
+    .profile-edit-container {
+        background-color: #fff;
+        
+        margin: 60px auto;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .profile-edit-container h2 {
+        font-size: 24px;
+        margin-bottom: 25px;
+        color: #007bff;
+    }
+
+    .profile-edit-container label {
+        display: block;
+        text-align: left;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .profile-edit-container input[type="text"],
+    .profile-edit-container input[type="email"],
+    .profile-edit-container input[type="password"],
+    .profile-edit-container textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    .profile-edit-container textarea {
+        resize: none;
+    }
+
+    .profile-edit-container input[type="file"] {
+        display: block;
+        margin: 10px 0 20px 0;
+    }
+
+    .profile-edit-container .profile-picture-preview {
+        margin: 10px 0;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        display: inline-block;
+    }
+
+    .profile-edit-container button {
+        width: 100%;
+        padding: 12px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .profile-edit-container button:hover {
+        background-color: #218838;
+    }
+
+    /* Optional: Styling for the message display */
+    .messages {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 15px;
+    }
+
+    .messages li {
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .messages .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .messages .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+</style>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="profile-edit-container">
+    <h2>Edit Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Profile Picture -->
+        <label for="id_profile_picture">Profile Picture</label>
+        {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}" class="profile-picture-preview">
+        {% else %}
+            <img src="{% static 'default_profile_picture.jpg' %}" alt="{{ user.username }}" class="profile-picture-preview">
+        {% endif %}
+        <input type="file" name="profile_picture" id="id_profile_picture">
+
+        <!-- Username -->
+        <label for="id_username">Username</label>
+        <input type="text" name="username" id="id_username" value="{{ user.username }}">
+
+        <!-- Bio -->
+        <label for="id_bio">Bio</label>
+        <textarea name="bio" id="id_bio" rows="3">{{ user.profile.bio }}</textarea>
+
+        <!-- Email -->
+        <label for="id_email">Email</label>
+        <input type="email" name="email" id="id_email" value="{{ user.email }}">
+
+        <!-- New Password -->
+        <label for="id_password">New Password</label>
+        <input type="password" name="password1" id="id_password">
+
+        <!-- Confirm New Password -->
+        <label for="id_password2">Confirm New Password</label>
+        <input type="password" name="password2" id="id_password2">
+
+        <!-- Save Changes Button -->
+        <button type="submit">Save Changes</button>
+    </form>
+</div>
+
+{% endblock %}

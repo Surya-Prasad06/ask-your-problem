@@ -1,0 +1,42 @@
+
+{% extends 'users/base.html' %}
+{% load static %}
+{% block content %}
+<div style="border: 1px solid #ffffff; border-radius: 10px; padding: 15px; margin-bottom: 20px; background: linear-gradient(to top, rgb(255, 255, 255), rgb(63, 61, 61)); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+<div class="post" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div class="post-header" style="display: flex; align-items: center;">
+        <a href="{% url 'profile_detail' post.author.username %}" style="text-decoration: none; color: black; display: flex; align-items: center;">
+            {% if post.author.profile.profile_picture %}
+                <img src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.username }}" style="border-radius: 50%; width: 50px; height: 50px; object-fit: cover;">
+            {% else %}
+                <img src="{% static 'default_profile_picture.jpg' %}" alt="{{ post.author.username }}" style="border-radius: 50%; width: 50px; height: 50px; object-fit: cover;">
+            {% endif %}
+            <strong style="margin-left: 10px;">{{ post.author.username }}</strong>
+        </a>
+    </div>
+    
+    <div class="post-content" style="margin-top: 10px;">
+        <p style="font-size: 16px; color: #333;">{{ post.content }}</p>
+        {% if post.image %}
+        <img src="{{ post.image.url }}" alt="Post Image" style="display: block; margin: 10px auto 0; max-width: 100%; height: auto; border-radius: 10px;">
+        {% endif %}
+    </div>
+    <div class="comment-section" style="margin-top: 20px;">
+        <h3>Comments</h3>
+        <form method="POST" class="comment-form" style="display: flex; margin-top: 10px;">
+            {% csrf_token %}
+            <input type="text" name="text" placeholder="Write a comment..." style="flex-grow: 1; padding: 8px; border: 1px solid #e0e0e0; border-radius: 5px; margin-right: 10px;">
+    <button type="submit" style="background-color: blue; color: white; border: none; border-radius: 5px; padding: 8px 12px;">Post</button>
+</form>
+        
+        <div class="comments-list" style="margin-top: 20px;">
+            {% for comment in post.comments.all %}
+            <div class="comment" style="margin-bottom: 10px;">
+                <strong>{{ comment.author.username }}</strong>: {{ comment.text }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

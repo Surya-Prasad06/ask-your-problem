@@ -1,0 +1,55 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h2 {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+}
+</style>
+<div style="        max-width: 600px;
+margin: 0 auto;
+padding: 20px;
+background-color: #f9f9f9;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+<div style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #333;">
+    <h2>Your Conversations</h2>
+    <ul>
+        {% for detail in conversation_details %}
+        <li>
+            <a href="{% url 'conversation_detail' detail.username %}">
+                💬 {{ detail.username }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+</div>
+
+{% endblock %}

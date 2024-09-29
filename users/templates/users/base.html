@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Ploblem Solver {% block title %}Social Media{% endblock %}</title>
+    <style>
+        .notification-bar {
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .notification-bar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notification-bar ul li {
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .new-notification {
+            font-weight: bold;
+            color: #ff5722;
+        }
+
+
+        body {
+        }
+        nav {
+            background-color: #ffffff;
+            padding: 10px;
+        }
+        nav .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav .navbar a {
+            color: rgb(1, 1, 1);
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 18px;
+        }
+        nav .navbar a:hover{
+            color: white;
+        }
+        .button {
+            margin: 0;
+            height: auto;
+            background: transparent;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+        }
+        .button {
+            --border-right: 6px;
+            --text-stroke-color: rgba(255,255,255,0.6);
+            --animation-color: #37FF8B;
+            --fs-size: 2em;
+            letter-spacing: 3px;
+            text-decoration: none;
+            font-size: var(--fs-size);
+            font-family: "Arial";
+            position: relative;
+            text-transform: uppercase;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-stroke-color);
+        }
+        .hover-text {
+            position: absolute;
+            box-sizing: border-box;
+            content: attr(data-text);
+            color: var(--animation-color);
+            width: 0%;
+            inset: 0;
+            border-right: var(--border-right) solid var(--animation-color);
+            overflow: hidden;
+            transition: 0.5s;
+            -webkit-text-stroke: 1px var(--animation-color);
+        }
+        .button:hover .hover-text {
+            width: 100%;
+            filter: drop-shadow(0 0 23px var(--animation-color));
+        }
+        .content {
+            padding: 20px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            background-color: #FFF;
+            font-size: 16px;
+            color: #3a3a3a;
+            text-align: center;
+        }
+/* text animation */
+        .bounce {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+            border: 1px solid rgba(0, 0, 0, .15);
+            background-color: #ffffff;
+            height: 50px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            /* Adding a subtle shadow */
+            background-color: #fa0000;
+            color: rgb(0, 0, 0);
+        }
+
+        .bounce p {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            line-height: 50px;
+            text-align: center;
+            transform: translateX(50%);
+            animation: bouncing-text 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bouncing-text {
+            0% {
+                transform: translateX(50%);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        .ssp {
+ display: inline-block;
+ width: 150px;
+ height: 50px;
+ border-radius: 10px;
+ border: 1px solid #03045e;
+ position: relative;
+ overflow: hidden;
+ transition: all 0.5s ease-in;
+ z-index: 1;
+}
+
+.ssp::before,
+.ssp::after {
+ content: '';
+ position: absolute;
+ top: 0;
+ width: 0;
+ height: 100%;
+ transform: skew(15deg);
+ transition: all 0.5s;
+ overflow: hidden;
+ z-index: -1;
+}
+
+.ssp::before {
+ left: -10px;
+ background: #000000;
+}
+
+.ssp::after {
+ right: -10px;
+ background: #383838;
+}
+
+.ssp:hover::before,
+.ssp:hover::after {
+ width: 58%;
+}
+
+.ssp:hover span {
+ color: #e0aaff;
+ transition: 0.3s;
+}
+
+.ssp span {
+ color: #03045e;
+ font-size: 18px;
+ transition: all 0.3s ease-in;
+}
+    </style>
+</head>
+<body style="width: 100%;
+height: 100%;
+background: linear-gradient(#3f87a6 10%, #ebf8e1a2 10%),
+  linear-gradient(to right, #ebf8e100 10%, #c73030 10% 10.2%, #ebf8e100 10.5%);
+background-size: 100% 25px, 100% 100%;
+background-repeat: repeat, no-repeat;">
+    <nav>
+        <div class="navbar">
+            <button class="ssp"><span><a href="{% url 'home' %}">Home</a></span></button>
+            {% if user.is_authenticated %}
+            <button class="ssp"><span><a href="{% url 'conversation_list' %}">Message</a></span></button>
+            <button class="ssp"><span><a href="{% url 'room_list' %}">Rooms</a></span></button>
+            <button class="ssp"><span><a href="{% url 'profile' %}">Profile</a></span></button>
+            <button class="ssp"><span><a href="{% url 'logout' %}">Logout</a></span></button>
+            {% else %}
+                <button class="ssp"><span><a href="{% url 'login' %}">Login</a></span></button>
+                <button class="ssp"><span><a href="{% url 'signup' %}">Signup</a></span></button>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="bounce">
+        <p><strong>This Is in  still Development Stage</strong></p>
+    </div>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+
+
+    </div>
+</body>
+</html>

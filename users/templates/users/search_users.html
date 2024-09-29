@@ -1,0 +1,17 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+<form method="get" action="{% url 'search_users' room_id=room.id %}">
+    <input type="text" name="query" placeholder="Search users...">
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for user in users %}
+        <li>
+            {{ user.username }} ({{ user.email }})
+            <a href="{% url 'add_member' room_id=room.id user_id=user.id %}">Add</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}
